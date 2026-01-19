@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# منع الوصول المباشر للمجلدات
+Options -Indexes
+
+# توجيه الطلبات لملف index.php إذا لم يكن الملف المطلوب موجوداً فعلياً
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ 404.php [L,QSA]
