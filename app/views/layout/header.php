@@ -1,94 +1,149 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MVC Premium Project</title>
-    
+    <title>ELECTROTECH | Premium Store</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #7209b7;
+            --main-dark: #0f172a;
+            --electric-blue: #38bdf8;
+            --glass-bg: rgba(15, 23, 42, 0.8);
         }
 
         body {
-            background: #f0f2f5;
-            overflow-x: hidden;
+            background-color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navbar Ultra-Modern */
+        .navbar-custom {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: white !important;
+            text-decoration: none;
+        }
+        
+        .brand-logo span {
+            color: var(--electric-blue);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .nav-link-custom {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500;
+            margin: 0 15px;
             position: relative;
         }
 
-        /* شكل هندسي متحرك في الخلفية */
-        .bg-shape {
-            position: fixed;
-            top: -150px;
-            right: -150px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.05) 100%);
-            border-radius: 50%;
-            z-index: -1;
-            animation: float 20s infinite alternate;
+        .nav-link-custom:hover {
+            color: var(--electric-blue) !important;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100px, 100px); }
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.8) !important;
-            backdrop-filter: blur(10px); /* تأثير الزجاج */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-link {
-            color: #333 !important;
-            font-weight: 500;
+        /* زر السلة المميز */
+        .cart-btn {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--electric-blue);
+            color: var(--electric-blue);
+            padding: 8px 18px;
+            border-radius: 12px;
             transition: 0.3s;
         }
 
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-            transform: translateY(-2px);
+        .cart-btn:hover {
+            background: var(--electric-blue);
+            color: white;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        /* الحاوية الرئيسية للمحتوى */
+        .page-content {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 80vh;
         }
     </style>
 </head>
+
 <body>
-    <div class="bg-shape"></div> <nav class="navbar navbar-expand-lg sticky-top">
+
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <i  class="fas fa-layer-group text-primary"></i> MVC<span class="text-primary">PRO</span>
+            <a class="brand-logo animate__animated animate__fadeInDown" href="?Accueil">
+                ELECTRO<span>TECH</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="fas fa-bars text-white"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="?Accueil"><i class="fas fa-home me-1"></i> Accueil</a></li>
-                    <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link text-primary" href="/admin/dashboard"><i class="fas fa-chart-line me-1"></i> Dashboard</a></li>
-                    <?php endif; ?>
-                </ul>
-                <div class="d-flex align-items-center">
-                    <?php if(isset($_SESSION['user_id'])): ?>
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle me-1"></i> <?= $_SESSION['username'] ?>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-danger" href="/auth/logout">Déconnexion</a></li>
-                            </ul>
-                        </div>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <?php if (isset($_SESSION['role'])): ?>
+                        <?php if ($_SESSION['role'] == 'user'): ?>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Accueil">Accueil</a></li>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Boutique">Boutique</a></li>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Categories">Catégories</a></li>
+
+                        <?php else: ?>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Categories">admin</a></li>
+
+                        <?php endif; ?>
                     <?php else: ?>
-                        <a href="?Login" class="btn btn-primary rounded-pill px-4 shadow">Connexion</a>
+                        <li class="nav-item"><a class="nav-link-custom" href="?Accueil">Accueil</a></li>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Boutique">Boutique</a></li>
+                            <li class="nav-item"><a class="nav-link-custom" href="?Categories">Catégories</a></li> 
                     <?php endif; ?>
-                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </ul>
+                <?php if (isset($_SESSION['role'])): ?>
+                    <?php if ($_SESSION['role'] == 'admin'): ?>
+
+                    <?php else: ?>
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="?panier" class="cart-btn text-decoration-none">
+                                <i class="fas fa-shopping-cart me-2"></i> Panier
+                            </a>
+                        <?php endif; ?>
+                    <?php else: ?>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="?Logout" class="btn btn-outline-light rounded-circle"><i class="fas fa-user"></i></a>
+                    <?php else: ?>
+                        <a href="?Login" class="btn btn-light rounded-pill px-4 fw-bold">Login</a>
+                    <?php endif; ?>
+                        </div>
             </div>
         </div>
     </nav>
-    <div class="container mt-5 py-4 bg-white shadow-sm rounded-4 animate__animated animate__fadeIn" style="min-height: 70vh;">
+
+    <main class="container page-content animate__animated animate__fadeIn">

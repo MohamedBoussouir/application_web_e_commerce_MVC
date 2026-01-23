@@ -1,53 +1,58 @@
 <?php
-session_start();
+
 include './app/views/layout/header.php'; ?>
 
+<div class="login-youth-container d-flex align-items-center justify-content-center">
+    <div class="floating-bubble bubble-1"></div>
+    <div class="floating-bubble bubble-2"></div>
 
-<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
-    <div class="col-md-5">
-        <div class="card auth-card animate__animated animate__zoomIn">
-            <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    <div class="auth-icon-circle">
-                        <i class="fas fa-lock text-primary fa-2x"></i>
+    <div class="col-md-6 col-lg-4 px-3" style="z-index: 5;">
+        <div class="card login-card-premium animate__animated animate__backInUp">
+            <div class="card-body p-4 p-md-5">
+                
+                <div class="text-center mb-5">
+                    <div class="icon-box-modern animate__animated animate__bounceIn">
+                        <i class="fas fa-bolt"></i>
                     </div>
-                    <h3 class="fw-bold mt-3">Connexion</h3>
-                    <p class="text-muted small">Accédez à votre espace personnel</p>
+                    <h2 class="brand-name-youth mt-3">ELECTRO<span>TECH</span></h2>
+                    <p class="text-muted fw-500">Prêt pour l'aventure numérique ?</p>
                 </div>
 
-                <?php
-                // var_dump($_SESSION['error']);
-                if ($_SESSION['error'] == 5):
-                ?>
-                    <div class="alert alert-danger py-2 small">
-                        <i class="fas fa-exclamation-circle me-2"></i> <?= "Adresse e-mail et mot de passe incorrects " ?>
+                <?php if (isset($_SESSION['error']) && $_SESSION['error'] == 5): ?>
+                    <div class="alert alert-custom-youth animate__animated animate__headShake">
+                        <i class="fas fa-ghost me-2"></i> Oups! Accès refusé.
                     </div>
-                <?php endif;
-                $_SESSION['error'] = 0;
+                <?php 
+                    $_SESSION['error'] = 0;
+                    endif; 
                 ?>
 
                 <form action="?Request" method="POST">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0"><i class="fas fa-envelope text-muted"></i></span>
-                            <input type="email" name="email" class="form-control bg-light border-0" placeholder="exemple@mail.com" required>
+                    <div class="input-group-youth mb-4 animate__animated animate__fadeInLeft animate__delay-1s">
+                        <label>VOTRE EMAIL</label>
+                        <div class="input-field-wrapper">
+                            <i class="far fa-envelope"></i>
+                            <input type="email" name="email" placeholder="hello@tech.com" required>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label small fw-bold">Mot de passe</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0"><i class="fas fa-key text-muted"></i></span>
-                            <input type="password" name="password" class="form-control bg-light border-0" placeholder="••••••••" required>
+
+                    <div class="input-group-youth mb-5 animate__animated animate__fadeInRight animate__delay-1s">
+                        <label>MOT DE PASSE</label>
+                        <div class="input-field-wrapper">
+                            <i class="fas fa-key"></i>
+                            <input type="password" name="password" placeholder="••••••••" required>
                         </div>
                     </div>
-                    <button name="submit" value="login" type="submit" class="btn btn-primary w-100 rounded-pill py-2 shadow-sm">
-                        Se connecter <i class="fas fa-arrow-right ms-2"></i>
+
+                    <button name="submit" value="login" type="submit" class="btn-youth-action shadow-lg animate__animated animate__pulse animate__infinite">
+                        LOG IN <i class="fas fa-rocket ms-2"></i>
                     </button>
                 </form>
 
-                <div class="text-center mt-4">
-                    <p class="small text-muted">Vous n'avez pas de compte ? <a href="?Register" class="text-primary fw-bold text-decoration-none">S'inscrire</a></p>
+                <div class="text-center mt-5">
+                    <p class="small fw-bold text-secondary">
+                        Nouveau ici ? <a href="?Register" class="text-info-custom">Rejoignez le club !</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -55,29 +60,134 @@ include './app/views/layout/header.php'; ?>
 </div>
 
 <style>
-    .auth-card {
-        border: none;
-        border-radius: 25px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    /* الحاوية الأساسية متناسقة مع ألوان الهيدر */
+    .login-youth-container {
+        min-height: 85vh;
+        background: #f1f5f9; /* رمادي فاتح جداً ليبرز الهيدر الداكن */
+        position: relative;
+        overflow: hidden;
     }
 
-    .auth-icon-circle {
+    /* أشكال عائمة خلفية (ألوان الهيدر) */
+    .floating-bubble {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        z-index: 1;
+        opacity: 0.15;
+    }
+    .bubble-1 { width: 300px; height: 300px; background: #38bdf8; top: -50px; left: -50px; }
+    .bubble-2 { width: 250px; height: 250px; background: #0f172a; bottom: -50px; right: -50px; }
+
+    /* البطاقة البريميوم */
+    .login-card-premium {
+        background: white;
+        border: none;
+        border-radius: 35px; /* مستديرة جداً وشبابية */
+        box-shadow: 0 25px 70px rgba(15, 23, 42, 0.08);
+        border-bottom: 5px solid #38bdf8; /* خط سفلي بلون الهيدر */
+    }
+
+    /* صندوق الأيقونة */
+    .icon-box-modern {
         width: 70px;
         height: 70px;
-        background: rgba(67, 97, 238, 0.1);
-        border-radius: 50%;
+        background: #0f172a; /* لون الهيدر الداكن */
+        color: #38bdf8; /* لون الهيدر المضيء */
+        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto;
+        font-size: 30px;
+        box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
     }
 
-    .form-control:focus {
-        box-shadow: none;
-        background-color: #fff !important;
-        border: 1px solid var(--primary-color) !important;
+    .brand-name-youth {
+        font-weight: 900;
+        letter-spacing: -1px;
+        color: #0f172a;
     }
+    .brand-name-youth span { color: #38bdf8; }
+
+    /* تنسيق المدخلات الشبابي */
+    .input-group-youth label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: #64748b;
+        margin-bottom: 8px;
+        display: block;
+        letter-spacing: 1px;
+    }
+
+    .input-field-wrapper {
+        position: relative;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 18px;
+        transition: 0.3s ease;
+    }
+
+    .input-field-wrapper:focus-within {
+        border-color: #38bdf8;
+        background: white;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+    }
+
+    .input-field-wrapper i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+    }
+
+    .input-field-wrapper input {
+        width: 100%;
+        border: none;
+        background: transparent;
+        padding: 15px 15px 15px 55px;
+        outline: none;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    /* الزر الأكشن (متناسق مع الهيدر) */
+    .btn-youth-action {
+        width: 100%;
+        background: #0f172a;
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 20px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        transition: 0.4s;
+    }
+
+    .btn-youth-action:hover {
+        background: #38bdf8;
+        color: #0f172a;
+        transform: scale(1.02);
+    }
+
+    /* التنبيه */
+    .alert-custom-youth {
+        background: #fff1f2;
+        border: none;
+        color: #e11d48;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .text-info-custom {
+        color: #38bdf8;
+        text-decoration: none;
+        border-bottom: 2px solid #38bdf8;
+    }
+
+    .fw-500 { font-weight: 500; }
 </style>
-
 
 <?php include './app/views/layout/footer.php'; ?>

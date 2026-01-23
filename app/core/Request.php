@@ -3,10 +3,8 @@
 namespace App\core;
 
 use App\models\User;
+use App\controllers\AdminController;
 use App\controllers\AuthControllers;
-
-
-
 
 class Request
 {
@@ -30,47 +28,51 @@ class Request
                 $_SESSION['error'] = 3;
                 header("Location:?Register");
             }
-
-            // header("Location:?Register");
-            echo "yesssssssssssssssssssssssssssssssssssssssssss";
             $User = new User($_POST['username'], $_POST['email'], $_POST['password']);
             echo AuthControllers::register($User);
+
+            header("Location:?Login");
             exit();
         }
 
         if ($_POST['submit'] == "login") {
             session_start();
-            $User = new User("", $_POST["email"], $_POST["password"]);
-            AuthControllers::login($User);
+            // $User = new User("", $_POST["email"], $_POST["password"]);
+            // AuthControllers::login($User);
             $check_auth = new check_auth();
             if (!count($check_auth->check_email_password())) {
-                echo"hu";
-               $_SESSION['error']=5;
+                echo "hu";
+                $_SESSION['error'] = 5;
                 header("Location:?Login");
-                }else{
-                echo"Welcome";
+            } else {
+
+                $test = $check_auth->check_email_password();
+
+                $_SESSION['username'] = $test['0']["username"];
+                $_SESSION['role'] = $test['0']["role"];
+                $_SESSION['email'] = $test['0']["email"];
+                $_SESSION['user_id'] = $test['0']["id"];
+                echo "Welcome:";
+                if ($test['0']["role"] == "user") {
+
+                    echo "user";
+
+                    $_SESSION['product_id']=[];
+                    header("Location:?user");
+                    // -------------------------------------------------------------------------------------------------
+                } else {
+
+                    echo "admin";
+                    header("Location:?admin");
+                }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             exit();
+        }
+        if ($_POST['submit'] == "Produit") {
+            AdminController::add_Produit();
+        }
+        if ($_POST['submit'] == "Produit_Edit") {
+            AdminController::Products_Edit();
         }
     }
 }

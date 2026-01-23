@@ -5,11 +5,11 @@ namespace App\models;
 class User
 {
     private int $id;
-    private string $username;
-    private string $email;
-    private string $password;
-    private string $role;
-    private string $created_at;
+    public string $username;
+    public string $email;
+    public string $password;
+    public string $role;
+    public string $created_at;
     public function __construct($username, $email, $password)
     {
         $this->username = $username;

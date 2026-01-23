@@ -2,35 +2,23 @@
 
 namespace App\models;
 
-use App\core\Database;
-
-
-
-class Products extends Database
+class Products
 {
     public int $id;
     public string $title;
     public string $description;
     public float $price;
-    public int $user_id;
-    public int $db;
-    public function __construct($title, $description, $price, ?string $user_id)
+    public string $ImageURL;
+    public  $AddedDate;
+    public int $stock_quantity;
+
+    public function __construct($title, $description, $price,$ImageURL,$stock_quantity)
     {
         $this->title = $title;
         $this->description = $description;
         $this->price = $price;
-        $this->user_id = $user_id;
-        $this->db = Database::connect(); 
-    }
-    public function getUser_id()
-    {
-        return $this->user_id;
-    }
-    public function setUser_id($user_id)
-    {
-        $this->user_id = $user_id;
-
-        return $this;
+        $this->ImageURL = $ImageURL;
+        $this->stock_quantity = $stock_quantity;
     }
     public function getPrice()
     {
@@ -69,6 +57,36 @@ class Products extends Database
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+    public function getAddedDate()
+    {
+        return $this->AddedDate;
+    }
+    public function setAddedDate($AddedDate)
+    {
+        $this->AddedDate = $AddedDate;
+
+        return $this;
+    }
+    public function getImageURL()
+    {
+        return $this->ImageURL;
+    }
+    public function setImageURL($ImageURL)
+    {
+        $this->ImageURL = $ImageURL;
+
+        return $this;
+    }
+    public function getStock_quantity()
+    {
+        return $this->stock_quantity;
+    }
+    public function setStock_quantity($stock_quantity)
+    {
+        $this->stock_quantity = $stock_quantity;
 
         return $this;
     }

@@ -49,5 +49,4 @@ class UserRepository
         $test = $stmt->execute([$name, $email, $password]);
         return $test;
     }
-
 }

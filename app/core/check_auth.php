@@ -2,8 +2,9 @@
 
 namespace App\core;
 
-use App\core\Database;
 use PDO;
+use App\models\User;
+use App\core\Database;
 
 class check_auth
 {
@@ -26,6 +27,7 @@ class check_auth
         $password = $_POST['password'];
         $SQL = "SELECT * FROM `users` WHERE `email`=? and `password`=?";
         $stmt = $this->db->prepare($SQL);
+        // $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
         $stmt->execute([$email, $password]);
         return $stmt->fetchAll();
     }
