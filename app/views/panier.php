@@ -199,30 +199,42 @@ foreach ($_POST["data"] as $vale) {
         <div class="col-lg-8">
             <div class="cart-container-cyber animate__animated animate__fadeInLeft">
                 <?php foreach ($data as $idx): ?>
+                    <?php
+
+                    $qty = isset($_SESSION['cart'][$idx['id']]) ? $_SESSION['cart'][$idx['id']] : 1;
+
+                    $total_item_price = $idx['price'] * $qty;
+                    ?>
                     <div class="cart-item-row">
                         <div class="cart-img-box">
                             <img src="<?= $idx['image_url'] ?>" alt="">
                         </div>
+
                         <div class="item-info">
                             <h5><?= $idx['title'] ?></h5>
+                        </div>
 
-                        </div>
                         <div class="quantity-box">
-                            <button id="btn_n9s" class="btn-qty">-</button>
-                            <span id="quantity">1</span>
-                            <button value="10" id="btn_zyad" class="btn-qty">+</button>
-                            <span id="price_stabl" style="display: none;"><?= $idx['price'] ?></span>
+                            <button class="btn-qty" onclick="location.href='?btn_n9s=<?= $idx['id'] ?>'">-</button>
+
+                            <span id="quantity_<?= $idx['id'] ?>"><?= $qty ?></span>
+
+                            <button class="btn-qty" onclick="location.href='?btn_zyad=<?= $idx['id'] ?>'">+</button>
+
+                            <span class="price-unit" style="display: none;"><?= $idx['price'] ?></span>
                         </div>
+
                         <div class="summary-line total-line">
-                            <span id="price"><?= $idx['price'] ?></span>
-                            <span class="currency"> &nbsp;DH</span>
+                            <span id="price" class="item-total-price">
+                                <?= number_format($total_item_price, 2) ?>
+                            </span>
+                            <span class="currency">&nbsp;DH</span>
                         </div>
+
                         <div class="btn-remove">
                             <a href="?panier=<?= $idx['id'] ?>" class="fas fa-trash"></a>
                         </div>
                     </div>
-
-
                 <?php endforeach; ?>
             </div>
         </div>
@@ -272,83 +284,84 @@ foreach ($_POST["data"] as $vale) {
         })
         return pric;
     }
+    // total();
     document.getElementById('TOTAL').innerText = total() + ' DH';
     document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
 
 
 
-    let btn_n9s = document.querySelectorAll('#btn_n9s');
-    let quantity = document.querySelectorAll('#quantity');
-    let btn_zyad = document.querySelectorAll('#btn_zyad');
-    let price = document.querySelectorAll('#price');
-    let price_stabl = document.querySelectorAll('#price_stabl');
+    // let btn_n9s = document.querySelectorAll('#btn_n9s');
+    // let quantity = document.querySelectorAll('#quantity');
+    // let btn_zyad = document.querySelectorAll('#btn_zyad');
+    // let price = document.querySelectorAll('#price');
+    // let price_stabl = document.querySelectorAll('#price_stabl');
 
 
-    price.forEach((element, key) => {
+    // price.forEach((element, key) => {
 
-        if (getCookie(key) == "") {
+    //     if (getCookie(key) == "") {
 
-            element.innerText = price_stabl[key].innerText * 1;
-            quantity[key].innerText = 1;
-        } else {
+    //         element.innerText = price_stabl[key].innerText * 1;
+    //         quantity[key].innerText = 1;
+    //     } else {
 
-            element.innerText = price_stabl[key].innerText * getCookie(key);
-            quantity[key].innerText = getCookie(key);
-        }
-        document.getElementById('TOTAL').innerText = total() + ' DH';
-        document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
+    //         element.innerText = price_stabl[key].innerText * getCookie(key);
+    //         quantity[key].innerText = getCookie(key);
+    //     }
+    //     document.getElementById('TOTAL').innerText = total() + ' DH';
+    //     document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
 
 
-    })
-    btn_n9s.forEach((element, key) => {
-        element.addEventListener('click', (e) => {
-            if (quantity[key].innerText == 1 | quantity[key].innerText == 0) {} else {
-                quantity[key].innerText--;
-                price[key].innerText = price[key].innerText - price_stabl[key].innerText;
-                document.getElementById('TOTAL').innerText = total() + ' DH';
-                document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
-                add_cookie()
-            }
-        })
-    })
-    btn_zyad.forEach((element, key) => {
-        element.addEventListener('click', (e) => {
-            quantity[key].innerText++;
+    // })
+    // btn_n9s.forEach((element, key) => {
+    //     element.addEventListener('click', (e) => {
+    //         if (quantity[key].innerText == 1 | quantity[key].innerText == 0) {} else {
+    //             quantity[key].innerText--;
+    //             price[key].innerText = price[key].innerText - price_stabl[key].innerText;
+    //             document.getElementById('TOTAL').innerText = total() + ' DH';
+    //             document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
+    //             add_cookie()
+    //         }
+    //     })
+    // })
+    // btn_zyad.forEach((element, key) => {
+    //     element.addEventListener('click', (e) => {
+    //         quantity[key].innerText++;
 
-            let a = parseFloat(price_stabl[key].innerText.replace(/[^\d.-]/g, ''));
-            let b = parseFloat(price[key].innerText.replace(/[^\d.-]/g, ''));
-            price[key].innerText = a + b;
-            document.getElementById('TOTAL').innerText = total() + ' DH';
-            document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
-            add_cookie()
-        })
-    })
+    //         let a = parseFloat(price_stabl[key].innerText.replace(/[^\d.-]/g, ''));
+    //         let b = parseFloat(price[key].innerText.replace(/[^\d.-]/g, ''));
+    //         price[key].innerText = a + b;
+    //         document.getElementById('TOTAL').innerText = total() + ' DH';
+    //         document.getElementById('SOUS-TOTAL').innerText = total() + ' DH';
+    //         add_cookie()
+    //     })
+    // })
 
-    let date = new Date();
-    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-    let expires = "expires=" + date.toUTCString();
+    // let date = new Date();
+    // date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+    // let expires = "expires=" + date.toUTCString();
 
-    function add_cookie() {
-        quantity.forEach((element, key) => {
-            document.cookie = key + "=" + element.innerText + "; " + expires + "; path=/";
-        })
-    }
+    // function add_cookie() {
+    //     quantity.forEach((element, key) => {
+    //         document.cookie = key + "=" + element.innerText + "; " + expires + "; path=/";
+    //     })
+    // }
 
-    function getCookie(name) {
-        let cookieName = name + "=";
+    // function getCookie(name) {
+    //     let cookieName = name + "=";
 
-        let ca = document.cookie.split(';');
+    //     let ca = document.cookie.split(';');
 
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
+    //     for (let i = 0; i < ca.length; i++) {
+    //         let c = ca[i];
 
-            while (c.charAt(0) == ' ') c = c.substring(1);
+    //         while (c.charAt(0) == ' ') c = c.substring(1);
 
-            if (c.indexOf(cookieName) == 0) {
-                return c.substring(cookieName.length, c.length);
-            }
-        }
-        return "";
-    };
+    //         if (c.indexOf(cookieName) == 0) {
+    //             return c.substring(cookieName.length, c.length);
+    //         }
+    //     }
+    //     return "";
+    // };
 </Script>
 <?php include './app/views/layout/footer.php'; ?>

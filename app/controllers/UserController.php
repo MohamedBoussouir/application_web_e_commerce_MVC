@@ -5,6 +5,7 @@ namespace App\controllers;
 
 
 
+use App\models\commande;
 use App\models\Repository\ProductsRepository;
 
 class UserController
@@ -35,7 +36,7 @@ class UserController
     }
     public static function indix_panier_add()
     {
-        session_start();
+        // session_start();
         $chek = false;
         foreach ($_SESSION['product_id'] as $vale) {
             if ($vale == $_GET['panier_add']) {
@@ -53,7 +54,8 @@ class UserController
         foreach ($_SESSION['product_id'] as $key => $vale) {
             if ($vale == $_GET['panier']) {
                 unset($_SESSION['product_id'][$key]);
-                setcookie($key, "", time() - 3600, "/");
+                unset($_SESSION['cart'][$key]);
+
                 break;
             }
         }
@@ -63,11 +65,46 @@ class UserController
     }
     public static function confirm_order()
     {
-        $commande=new commande();
-       var_dump($_SESSION['product_id']);
-       var_dump($_POST["data"]);
+        // $commande=new commande($_SESSION['user_id'],);
+
+
+        var_dump($_SESSION);
+
+
+
+
+        //    var_dump($_SESSION['product_id']);
+        //    var_dump($_POST["data"]);
 
     }
+    public static function btn_zyad()
+    {
+        $id = $_GET['btn_zyad'];
+        if (isset($_GET['btn_zyad'])) {
+            if (!isset($_SESSION['cart'][$id])) {
+                $_SESSION['cart'][$id] = 1;
+            } else {
+                $_SESSION['cart'][$id]++;
+            }
+            header("Location: ?panier");
+            exit();
+        }
+    }
+
+    public static function btn_n9s()
+    {
+        if (isset($_GET['btn_n9s'])) {
+            $id = $_GET['btn_n9s'];
+            if (isset($_SESSION['cart'][$id]) && $_SESSION['cart'][$id] > 1) {
+                $_SESSION['cart'][$id]--;
+            } else {
+                unset($_SESSION['cart'][$id]);
+            }
+            header("Location: ?panier");
+            exit();
+        }
+    }
+
 
     public static function indix_success()
     {

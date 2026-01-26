@@ -72,6 +72,12 @@ class Router
             case 'confirm_order':
                 UserController::confirm_order();
                 break;
+            case 'btn_n9s':
+                UserController::btn_n9s();
+                break;
+            case 'btn_zyad':
+                UserController::btn_zyad();
+                break;
             default: {
                     ErreurControllers::indix();
                 }
